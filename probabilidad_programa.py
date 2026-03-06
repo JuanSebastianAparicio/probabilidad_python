@@ -14,7 +14,7 @@ def prob_binomial(n, r, p):
 
 def main():
     while True:
-        print("\n=== SISTEMA DE PROBABILIDAD Y CONTEO ===")
+        print("\n SISTEMA DE PROBABILIDAD Y CONTEO")
         print("1. Combinaciones C(n,r)")
         print("2. Variaciones V(n,r)")
         print("3. Permutaciones P(n)")
@@ -42,7 +42,7 @@ def main():
         elif opcion == "4":
             n = int(input("Número de ensayos: "))
             r = int(input("Número de éxitos: "))
-            p = float(input("Probabilidad de éxito (ej 0.03): "))
+            p = float(input("Probabilidad de éxito (en decimal): "))
             print("Probabilidad:", prob_binomial(n, r, p))
 
         elif opcion == "5":
@@ -74,4 +74,5 @@ def main():
             print("Opción inválida")
 
 if __name__ == "__main__":
+
     main()
