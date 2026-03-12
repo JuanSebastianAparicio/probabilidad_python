@@ -46,7 +46,7 @@ def main():
             print("Probabilidad:", prob_binomial(n, r, p))
 
         elif opcion == "5":
-            print("Probabilidad con reemplazo")
+            print("Probabilidad con sustitución")
             favorables = float(input("Cantidad favorable: "))
             total = float(input("Total elementos: "))
             veces = int(input("Número de selecciones: "))
@@ -54,7 +54,7 @@ def main():
             print("Probabilidad:", prob)
 
         elif opcion == "6":
-            print("Probabilidad sin reemplazo")
+            print("Probabilidad sin sustitución")
             total = int(input("Total elementos: "))
             seleccion = int(input("Cantidad seleccionada: "))
             favorables = int(input("Favorables dentro del total: "))
@@ -76,3 +76,4 @@ def main():
 if __name__ == "__main__":
 
     main()
+
