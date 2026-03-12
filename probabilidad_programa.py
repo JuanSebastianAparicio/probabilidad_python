@@ -19,8 +19,8 @@ def main():
         print("2. Variaciones V(n,r)")
         print("3. Permutaciones P(n)")
         print("4. Probabilidad Binomial")
-        print("5. Probabilidad con reemplazo")
-        print("6. Probabilidad sin reemplazo")
+        print("5. Probabilidad con sustitución")
+        print("6. Probabilidad sin sustitución")
         print("7. Salir")
 
         opcion = input("Seleccione una opción: ")
@@ -76,4 +76,5 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
