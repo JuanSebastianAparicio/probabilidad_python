@@ -38,14 +38,14 @@ def graficar(x, pmf, titulo, k_destacado=None):
     ax2.set_xticks(x)
     ax2.set_ylim(0, 1.1)
     ax2.grid(axis="y", linestyle="--", alpha=0.5)
-
+#Linea discontinua
     if k_destacado is not None:
         ax2.axvline(x=x[k_destacado], color="red", linestyle="--", linewidth=1.2)
         ax2.axhline(y=cdf[k_destacado], color="red", linestyle=":", linewidth=1.2)
 
     plt.tight_layout()
     plt.show()
-
+#grafica binomial
 def graficar_binomial(n, p, k_destacado=None):
     x   = list(range(n + 1))
     pmf = [prob_binomial(n, k, p) for k in x]
@@ -144,8 +144,6 @@ def main():
         input("\nPresione Enter para continuar...")
 
 if __name__ == "__main__":
-    main()
-
     main()
 
 
