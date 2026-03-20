@@ -1,0 +1,683 @@
+\documentclass[12pt, letterpaper]{article}
+
+% ============================================================
+%  PAQUETES
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{colortbl}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% ============================================================
+%  CONFIGURACIÓN DE PÁGINA
+% ============================================================
+\geometry{left=2.5cm, right=2.5cm, top=3.0cm, bottom=3.0cm}
+
+\hypersetup{colorlinks=true, linkcolor=blue!60!black, urlcolor=blue!60!black}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\small Distribuciones Normal y Exponencial}
+\lhead{\small Universidad -- Departamento de Estadística}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Colores
+\definecolor{azulOscuro}{RGB}{0,51,102}
+\definecolor{azulClaro}{RGB}{173,216,230}
+\definecolor{verdeClaro}{RGB}{180,230,180}
+\definecolor{rojoClaro}{RGB}{255,200,200}
+\definecolor{grisFondo}{RGB}{248,248,248}
+
+% Cajas de resultado
+\tcbuselibrary{skins,breakable}
+\newtcolorbox{resbox}[1][Resultado]{
+    colback=azulClaro!30, colframe=azulOscuro,
+    fonttitle=\bfseries, title=#1,
+    left=5pt, right=5pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{defbox}[1][Definición]{
+    colback=grisFondo, colframe=azulOscuro!60,
+    fonttitle=\bfseries\color{azulOscuro}, title=#1,
+    left=5pt, right=5pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{propbox}[1][Propiedad]{
+    colback=verdeClaro!40, colframe=green!50!black,
+    fonttitle=\bfseries, title=#1,
+    left=5pt, right=5pt, top=4pt, bottom=4pt
+}
+
+% Diferencial
+\newcommand{\dx}{\,dx}
+\newcommand{\dy}{\,dy}
+
+% Entornos matemáticos
+\newtheorem{teorema}{Teorema}
+\newtheorem{proposicion}{Proposición}
+
+% ============================================================
+%  DOCUMENTO
+% ============================================================
+\begin{document}
+
+% ============================================================
+%  PORTADA
+% ============================================================
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    {\Large \textbf{Universidad Nacional}\par}
+    {\large Departamento de Matemáticas y Estadística\par}
+    \vspace{1.5cm}
+    \rule{\linewidth}{0.5mm}\\[0.4cm]
+    {\LARGE \textbf{\color{azulOscuro}
+        Distribuciones de Probabilidad\\[0.3cm]
+        Normal y Exponencial}\par}
+    \rule{\linewidth}{0.5mm}\\[1.5cm]
+
+    {\large \textbf{Aplicación:} Tiempos de Atención y Calificaciones\\
+    en un Centro Universitario\par}
+    \vspace{2cm}
+
+    \begin{tabular}{rl}
+        \textbf{Asignatura:} & Probabilidad y Estadística Matemática \\[6pt]
+        \textbf{Nivel:}      & Pregrado -- Semestre V                \\[6pt]
+        \textbf{Fecha:}      & Marzo 2026
+    \end{tabular}
+    \vfill
+    {\small Documento generado con \LaTeX\ -- \texttt{amsmath} + \texttt{pgfplots}\par}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============================================================
+%  INTRODUCCIÓN
+% ============================================================
+\section{Introducción y Planteamiento del Problema}
+
+Un centro universitario de atención estudiantil desea modelar dos
+procesos clave que ocurren simultáneamente durante cada jornada:
+
+\begin{itemize}[leftmargin=1.5cm]
+    \item $X$: \textbf{Calificación final} (sobre 100 puntos) obtenida
+          por un estudiante seleccionado al azar en el examen semestral.
+          Por el teorema central del límite, la calificación de una
+          población grande de estudiantes sigue una distribución
+          \textbf{Normal}.
+    \item $Y$: \textbf{Tiempo de espera} (en minutos) para ser atendido
+          en la ventanilla de registro. Los tiempos entre eventos de
+          llegada/servicio en colas siguen una distribución
+          \textbf{Exponencial}.
+\end{itemize}
+
+Se asume que $X$ e $Y$ son \emph{independientes}: la nota de un estudiante
+no depende de cuánto tiempo esperó en la fila.
+
+% ============================================================
+%  PARTE I: DISTRIBUCIÓN NORMAL
+% ============================================================
+\newpage
+\section{Parte I: Distribución Normal}
+
+% --------------------------------------------------------
+\subsection{Definición y Función de Densidad}
+% --------------------------------------------------------
+
+\begin{defbox}[Distribución Normal]
+Se dice que $X \sim \mathcal{N}(\mu, \sigma^2)$ si su función de densidad
+de probabilidad (f.d.p.) es:
+\begin{equation}
+    f_X(x) = \frac{1}{\sigma\sqrt{2\pi}}\,
+              \exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right),
+    \qquad x \in \mathbb{R}
+    \label{eq:normal_pdf}
+\end{equation}
+con parámetros $\mu \in \mathbb{R}$ (media) y $\sigma^2 > 0$ (varianza).
+\end{defbox}
+
+\textbf{Parámetros del problema:}
+\[
+    X \sim \mathcal{N}(\mu = 70,\; \sigma^2 = 100)
+    \qquad (\sigma = 10)
+\]
+
+La densidad queda:
+\begin{equation}
+    f_X(x) = \frac{1}{10\sqrt{2\pi}}\,
+              \exp\!\left(-\frac{(x-70)^2}{200}\right),
+    \qquad x \in \mathbb{R}
+    \label{eq:normal_problema}
+\end{equation}
+
+% --------------------------------------------------------
+\subsection{Momentos de la Distribución Normal}
+% --------------------------------------------------------
+
+\begin{propbox}[Momentos de $X \sim \mathcal{N}(\mu,\sigma^2)$]
+\begin{align}
+    E(X)      &= \mu                     \label{eq:EX_normal} \\[4pt]
+    E(X^2)    &= \mu^2 + \sigma^2        \label{eq:EX2_normal} \\[4pt]
+    \mathrm{Var}(X) &= \sigma^2          \label{eq:VarX_normal} \\[4pt]
+    \mathrm{DE}(X)  &= \sigma            \label{eq:DE_normal}
+\end{align}
+\end{propbox}
+
+Aplicando al problema:
+\begin{align}
+    E(X)            &= 70      \label{eq:EX_val} \\
+    \mathrm{Var}(X) &= 100     \label{eq:VarX_val} \\
+    \mathrm{DE}(X)  &= 10      \label{eq:DE_val}
+\end{align}
+
+\textbf{Interpretación:} La calificación promedio es de 70 puntos, con una
+desviación estándar de 10 puntos.
+
+% --------------------------------------------------------
+\subsection{Estandarización y Variable $Z$}
+% --------------------------------------------------------
+
+Toda variable $X \sim \mathcal{N}(\mu,\sigma^2)$ se transforma a la
+\emph{normal estándar} $Z \sim \mathcal{N}(0,1)$ mediante:
+\begin{equation}
+    Z = \frac{X - \mu}{\sigma} = \frac{X - 70}{10}
+    \label{eq:estandarizacion}
+\end{equation}
+
+La f.d.p. de $Z$ es:
+\begin{equation}
+    \varphi(z) = \frac{1}{\sqrt{2\pi}}\,e^{-z^2/2},
+    \qquad z \in \mathbb{R}
+    \label{eq:normal_std}
+\end{equation}
+
+% --------------------------------------------------------
+\subsection{Cálculo de Probabilidades}
+% --------------------------------------------------------
+
+Sea $\Phi(z) = P(Z \leq z)$ la función de distribución acumulada (CDF)
+de la normal estándar.
+
+\subsubsection{Probabilidad de aprobar: \texorpdfstring{$P(X \geq 60)$}{P(X>=60)}}
+
+\begin{align}
+    P(X \geq 60)
+        &= P\!\left(\frac{X-70}{10} \geq \frac{60-70}{10}\right)
+         = P(Z \geq -1) \notag \\
+        &= 1 - \Phi(-1)
+         = \Phi(1)
+    \label{eq:p_aprobar}
+\end{align}
+
+\begin{resbox}
+\[
+    P(X \geq 60) = \Phi(1) \approx \mathbf{0.8413}
+\]
+El $84.13\%$ de los estudiantes obtiene una calificación de 60 o más.
+\end{resbox}
+
+\subsubsection{Probabilidad de calificación sobresaliente: \texorpdfstring{$P(X \geq 85)$}{P(X>=85)}}
+
+\begin{align}
+    P(X \geq 85)
+        &= P\!\left(Z \geq \frac{85-70}{10}\right)
+         = P(Z \geq 1.5) \notag \\
+        &= 1 - \Phi(1.5)
+    \label{eq:p_sobresaliente}
+\end{align}
+
+\begin{resbox}
+\[
+    P(X \geq 85) = 1 - \Phi(1.5) \approx \mathbf{0.0668}
+\]
+Solo el $6.68\%$ de los estudiantes obtiene 85 o más puntos.
+\end{resbox}
+
+\subsubsection{Probabilidad en un intervalo: \texorpdfstring{$P(60 \leq X \leq 80)$}{P(60<=X<=80)}}
+
+\begin{align}
+    P(60 \leq X \leq 80)
+        &= P\!\left(\frac{60-70}{10} \leq Z \leq \frac{80-70}{10}\right)
+         = P(-1 \leq Z \leq 1) \notag \\
+        &= \Phi(1) - \Phi(-1)
+         = 2\Phi(1) - 1
+    \label{eq:p_intervalo}
+\end{align}
+
+\begin{resbox}
+\[
+    P(60 \leq X \leq 80) = 2\Phi(1) - 1 \approx \mathbf{0.6827}
+\]
+La regla empírica $\mu \pm \sigma$: el $68.27\%$ de los estudiantes
+obtiene entre 60 y 80 puntos.
+\end{resbox}
+
+\subsubsection{Regla empírica \texorpdfstring{$\mu \pm 2\sigma$}{mu±2sigma}}
+
+\begin{align}
+    P(50 \leq X \leq 90)
+        &= P(-2 \leq Z \leq 2)
+         = 2\Phi(2) - 1
+         \approx \mathbf{0.9545}
+    \label{eq:p_2sigma}
+\end{align}
+
+\subsubsection{Cuantil: Percentil 90}
+
+Se busca $x_{0.90}$ tal que $P(X \leq x_{0.90}) = 0.90$:
+\begin{align}
+    \Phi(z_{0.90}) = 0.90
+        &\implies z_{0.90} \approx 1.2816 \notag \\
+        &\implies x_{0.90} = \mu + z_{0.90}\cdot\sigma
+                           = 70 + 1.2816 \times 10
+    \label{eq:percentil90}
+\end{align}
+
+\begin{resbox}
+\[
+    x_{0.90} \approx \mathbf{82.82}
+\]
+El $90\%$ de los estudiantes obtiene menos de $82.82$ puntos.
+\end{resbox}
+
+% --------------------------------------------------------
+\subsection{Verificación de la Integral Total}
+% --------------------------------------------------------
+
+\begin{equation}
+    \int_{-\infty}^{\infty} f_X(x)\dx
+    = \int_{-\infty}^{\infty}
+        \frac{1}{\sigma\sqrt{2\pi}} e^{-(x-\mu)^2/(2\sigma^2)}\dx
+    \overset{z=(x-\mu)/\sigma}{=}
+    \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty} e^{-z^2/2}\,dz
+    = 1 \quad \checkmark
+    \label{eq:normalizacion_normal}
+\end{equation}
+
+donde se usa la identidad de Gauss $\displaystyle\int_{-\infty}^{\infty}e^{-z^2/2}dz = \sqrt{2\pi}$.
+
+% --------------------------------------------------------
+\subsection{Gráfica de la Densidad Normal}
+% --------------------------------------------------------
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+    width=13cm, height=6cm,
+    xlabel={Calificación $x$},
+    ylabel={$f_X(x)$},
+    title={Densidad Normal $\mathcal{N}(70, 100)$},
+    xmin=35, xmax=105,
+    ymin=0, ymax=0.045,
+    xtick={40,50,60,70,80,90,100},
+    grid=major, grid style={dotted, gray!40},
+    axis lines=left,
+]
+% Área entre 60 y 80
+\addplot[fill=azulClaro!50, draw=none, domain=60:80, samples=100]
+    {(1/(10*sqrt(2*pi)))*exp(-((x-70)^2)/200)} \closedcycle;
+% Curva principal
+\addplot[thick, color=azulOscuro, domain=35:105, samples=200]
+    {(1/(10*sqrt(2*pi)))*exp(-((x-70)^2)/200)};
+% Línea media
+\addplot[dashed, red, thick] coordinates {(70,0)(70,0.0399)};
+\node at (axis cs:70,0.042) {\small $\mu=70$};
+\node at (axis cs:70,0.022) [right] {\small $68.27\%$};
+\end{axis}
+\end{tikzpicture}
+\captionof{figure}{Densidad $f_X(x)$ con región $P(60\leq X\leq 80)$ sombreada.}
+\end{center}
+
+% ============================================================
+%  PARTE II: DISTRIBUCIÓN EXPONENCIAL
+% ============================================================
+\newpage
+\section{Parte II: Distribución Exponencial}
+
+% --------------------------------------------------------
+\subsection{Definición y Función de Densidad}
+% --------------------------------------------------------
+
+\begin{defbox}[Distribución Exponencial]
+Se dice que $Y \sim \mathrm{Exp}(\lambda)$ si su f.d.p. es:
+\begin{equation}
+    f_Y(y) = \lambda\,e^{-\lambda y},
+    \qquad y > 0,\quad \lambda > 0
+    \label{eq:exp_pdf}
+\end{equation}
+con parámetro de tasa $\lambda > 0$.
+\end{defbox}
+
+\textbf{Parámetros del problema:} La ventanilla atiende en promedio a
+$\lambda = 1/5$ estudiantes por minuto (uno cada 5 minutos):
+\[
+    Y \sim \mathrm{Exp}\!\left(\lambda = \tfrac{1}{5}\right)
+\]
+
+La densidad queda:
+\begin{equation}
+    f_Y(y) = \frac{1}{5}\,e^{-y/5},
+    \qquad y > 0
+    \label{eq:exp_problema}
+\end{equation}
+
+% --------------------------------------------------------
+\subsection{Momentos de la Distribución Exponencial}
+% --------------------------------------------------------
+
+\begin{propbox}[Momentos de $Y \sim \mathrm{Exp}(\lambda)$]
+\begin{align}
+    E(Y)            &= \frac{1}{\lambda}            \label{eq:EY_exp} \\[4pt]
+    E(Y^2)          &= \frac{2}{\lambda^2}          \label{eq:EY2_exp} \\[4pt]
+    \mathrm{Var}(Y) &= \frac{1}{\lambda^2}          \label{eq:VarY_exp} \\[4pt]
+    \mathrm{DE}(Y)  &= \frac{1}{\lambda}            \label{eq:DE_exp}
+\end{align}
+\end{propbox}
+
+\textbf{Derivación de $E(Y)$:}
+\begin{align}
+    E(Y) &= \int_0^{\infty} y \cdot \frac{1}{5} e^{-y/5}\dy \notag \\
+         &= \frac{1}{5}\left[-5ye^{-y/5}\right]_0^{\infty}
+            + \frac{1}{5}\int_0^{\infty}5e^{-y/5}\dy \notag \\
+         &= 0 + \int_0^{\infty}e^{-y/5}\dy
+          = \left[-5e^{-y/5}\right]_0^{\infty} = 5
+    \label{eq:EY_deriv}
+\end{align}
+
+Aplicando al problema ($\lambda = 1/5$):
+\begin{align}
+    E(Y)            &= 5 \text{ minutos}   \\
+    \mathrm{Var}(Y) &= 25 \text{ min}^2    \\
+    \mathrm{DE}(Y)  &= 5 \text{ minutos}
+\end{align}
+
+% --------------------------------------------------------
+\subsection{Función de Distribución Acumulada}
+% --------------------------------------------------------
+
+\begin{equation}
+    F_Y(y) = P(Y \leq y) = \int_0^y \frac{1}{5}e^{-t/5}\,dt
+           = 1 - e^{-y/5}, \qquad y > 0
+    \label{eq:exp_cdf}
+\end{equation}
+
+% --------------------------------------------------------
+\subsection{Propiedad de Carencia de Memoria}
+% --------------------------------------------------------
+
+\begin{propbox}[Sin memoria]
+La distribución Exponencial es la única distribución continua con la
+propiedad de \emph{carencia de memoria}:
+\begin{equation}
+    P(Y > s + t \mid Y > s) = P(Y > t), \qquad \forall\, s, t > 0
+    \label{eq:sin_memoria}
+\end{equation}
+\end{propbox}
+
+\textbf{Demostración:}
+\begin{align}
+    P(Y > s + t \mid Y > s)
+        &= \frac{P(Y > s+t)}{P(Y > s)}
+         = \frac{e^{-(s+t)/5}}{e^{-s/5}}
+         = e^{-t/5}
+         = P(Y > t) \quad \checkmark
+    \label{eq:sin_memoria_dem}
+\end{align}
+
+% --------------------------------------------------------
+\subsection{Cálculo de Probabilidades}
+% --------------------------------------------------------
+
+\subsubsection{Probabilidad de esperar menos de 3 minutos: \texorpdfstring{$P(Y < 3)$}{P(Y<3)}}
+
+\begin{align}
+    P(Y < 3) &= F_Y(3) = 1 - e^{-3/5} = 1 - e^{-0.6}
+    \label{eq:p_y3}
+\end{align}
+
+\begin{resbox}
+\[
+    P(Y < 3) = 1 - e^{-0.6} \approx \mathbf{0.4512}
+\]
+El $45.12\%$ de los estudiantes espera menos de 3 minutos.
+\end{resbox}
+
+\subsubsection{Probabilidad de esperar más de 10 minutos: \texorpdfstring{$P(Y > 10)$}{P(Y>10)}}
+
+\begin{align}
+    P(Y > 10) &= 1 - F_Y(10) = e^{-10/5} = e^{-2}
+    \label{eq:p_y10}
+\end{align}
+
+\begin{resbox}
+\[
+    P(Y > 10) = e^{-2} \approx \mathbf{0.1353}
+\]
+El $13.53\%$ de los estudiantes espera más de 10 minutos.
+\end{resbox}
+
+\subsubsection{Probabilidad en un intervalo: \texorpdfstring{$P(2 \leq Y \leq 8)$}{P(2<=Y<=8)}}
+
+\begin{align}
+    P(2 \leq Y \leq 8)
+        &= F_Y(8) - F_Y(2)
+         = \left(1 - e^{-8/5}\right) - \left(1 - e^{-2/5}\right) \notag \\
+        &= e^{-0.4} - e^{-1.6}
+    \label{eq:p_y_intervalo}
+\end{align}
+
+\begin{resbox}
+\[
+    P(2 \leq Y \leq 8) = e^{-0.4} - e^{-1.6} \approx \mathbf{0.4684}
+\]
+\end{resbox}
+
+\subsubsection{Mediana de la distribución}
+
+Se busca $m$ tal que $F_Y(m) = 0.5$:
+\begin{align}
+    1 - e^{-m/5} = 0.5
+        &\implies e^{-m/5} = 0.5
+         \implies m = 5\ln 2
+    \label{eq:mediana_exp}
+\end{align}
+
+\begin{resbox}
+\[
+    m = 5\ln 2 \approx \mathbf{3.466} \text{ minutos}
+\]
+La mediana es menor que la media ($E(Y)=5$), confirmando la asimetría
+positiva de la distribución Exponencial.
+\end{resbox}
+
+\subsubsection{Verificación de la integral total}
+
+\begin{equation}
+    \int_0^{\infty} \frac{1}{5}e^{-y/5}\dy
+    = \frac{1}{5}\left[-5e^{-y/5}\right]_0^{\infty}
+    = \frac{1}{5}(0+5) = 1 \quad \checkmark
+    \label{eq:normalizacion_exp}
+\end{equation}
+
+% --------------------------------------------------------
+\subsection{Gráfica de la Densidad Exponencial}
+% --------------------------------------------------------
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+    width=13cm, height=6cm,
+    xlabel={Tiempo de espera $y$ (min)},
+    ylabel={$f_Y(y)$},
+    title={Densidad Exponencial $\mathrm{Exp}(1/5)$},
+    xmin=0, xmax=30,
+    ymin=0, ymax=0.22,
+    grid=major, grid style={dotted, gray!40},
+    axis lines=left,
+]
+% Área P(2 <= Y <= 8)
+\addplot[fill=azulClaro!50, draw=none, domain=2:8, samples=100]
+    {(1/5)*exp(-x/5)} \closedcycle;
+% Área P(Y > 10)
+\addplot[fill=rojoClaro!60, draw=none, domain=10:30, samples=100]
+    {(1/5)*exp(-x/5)} \closedcycle;
+% Curva
+\addplot[thick, color=azulOscuro, domain=0:30, samples=200]
+    {(1/5)*exp(-x/5)};
+% Mediana
+\addplot[dashed, green!60!black, thick] coordinates {(3.466,0)(3.466,0.17)};
+\node at (axis cs:3.466,0.185) [right] {\small $m=3.47$};
+\node at (axis cs:5,0.08) {\small $46.92\%$};
+\node at (axis cs:17,0.025) {\small $13.53\%$};
+\end{axis}
+\end{tikzpicture}
+\captionof{figure}{Densidad $f_Y(y)$: región $P(2\leq Y\leq 8)$ en azul y $P(Y>10)$ en rojo.}
+\end{center}
+
+% ============================================================
+%  PARTE III: ANÁLISIS CONJUNTO
+% ============================================================
+\newpage
+\section{Parte III: Análisis Conjunto de $X$ e $Y$}
+
+\subsection{Distribución Conjunta}
+
+Dado que $X$ e $Y$ son \textbf{independientes}, la densidad conjunta es:
+\begin{equation}
+    f(x,y) = f_X(x)\cdot f_Y(y)
+    = \frac{1}{10\sqrt{2\pi}}\,e^{-(x-70)^2/200}
+      \cdot \frac{1}{5}\,e^{-y/5},
+    \qquad x \in \mathbb{R},\; y > 0
+    \label{eq:conjunta}
+\end{equation}
+
+\subsection{Probabilidades Conjuntas}
+
+Por independencia, las probabilidades conjuntas se factorizan:
+\begin{equation}
+    P(A \cap B) = P(A)\cdot P(B)
+    \label{eq:factorizacion}
+\end{equation}
+
+\subsubsection{\texorpdfstring{$P(X \geq 60 \text{ y } Y < 3)$}{P(X>=60 y Y<3)}: aprobar Y espera corta}
+
+\begin{align}
+    P(X \geq 60,\; Y < 3)
+        &= P(X \geq 60)\cdot P(Y < 3) \notag \\
+        &= \Phi(1)\cdot(1-e^{-0.6}) \notag \\
+        &\approx 0.8413 \times 0.4512
+         = \mathbf{0.3796}
+    \label{eq:conj1}
+\end{align}
+
+\subsubsection{\texorpdfstring{$P(X \geq 85 \text{ y } Y > 10)$}{P(X>=85 y Y>10)}: sobresaliente Y larga espera}
+
+\begin{align}
+    P(X \geq 85,\; Y > 10)
+        &= P(X \geq 85)\cdot P(Y > 10) \notag \\
+        &= (1-\Phi(1.5))\cdot e^{-2} \notag \\
+        &\approx 0.0668 \times 0.1353
+         = \mathbf{0.0090}
+    \label{eq:conj2}
+\end{align}
+
+\subsection{Esperanza y Varianza Conjuntas}
+
+\begin{align}
+    E(X + Y) &= E(X) + E(Y) = 70 + 5 = \mathbf{75} \\[4pt]
+    \mathrm{Var}(X+Y) &= \mathrm{Var}(X) + \mathrm{Var}(Y) \quad
+        \text{(por independencia)} \notag \\
+        &= 100 + 25 = \mathbf{125} \\[4pt]
+    E(XY) &= E(X)\cdot E(Y) = 70 \times 5 = \mathbf{350}
+        \quad \text{(por independencia)} \\[4pt]
+    \mathrm{Cov}(X,Y) &= E(XY) - E(X)E(Y) = 350 - 350 = \mathbf{0}
+\end{align}
+
+% ============================================================
+%  4. CONCLUSIÓN
+% ============================================================
+\section{Conclusión e Interpretación}
+
+\subsection{Resumen de Resultados}
+
+\begin{table}[ht]
+    \centering
+    \caption{Resumen completo de resultados}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{llcc}
+        \toprule
+        \rowcolor{azulClaro}
+        \textbf{Distribución} & \textbf{Medida / Probabilidad}
+            & \textbf{Exacto} & \textbf{Numérico} \\
+        \midrule
+        \multirow{6}{*}{Normal $\mathcal{N}(70,100)$}
+            & $E(X)$              & $70$           & $70.0000$ \\
+            & $\mathrm{Var}(X)$   & $100$          & $100.0000$ \\
+            & $P(X \geq 60)$      & $\Phi(1)$      & $0.8413$ \\
+            & $P(X \geq 85)$      & $1-\Phi(1.5)$  & $0.0668$ \\
+            & $P(60\leq X\leq 80)$& $2\Phi(1)-1$   & $0.6827$ \\
+            & Percentil 90        & $70+10z_{0.9}$ & $82.82$ \\
+        \midrule
+        \multirow{5}{*}{Exponencial $\mathrm{Exp}(1/5)$}
+            & $E(Y)$              & $5$            & $5.0000$ \\
+            & $\mathrm{Var}(Y)$   & $25$           & $25.0000$ \\
+            & $P(Y < 3)$          & $1-e^{-0.6}$   & $0.4512$ \\
+            & $P(Y > 10)$         & $e^{-2}$       & $0.1353$ \\
+            & Mediana             & $5\ln 2$       & $3.4657$ \\
+        \midrule
+        \multirow{2}{*}{Conjunta (indep.)}
+            & $P(X\geq60,Y<3)$    & ---            & $0.3796$ \\
+            & $P(X\geq85,Y>10)$   & ---            & $0.0090$ \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:resumen}
+\end{table}
+
+\subsection{Conclusiones}
+
+\begin{enumerate}[leftmargin=1.5cm, label=\textbf{\arabic*.}]
+
+    \item \textbf{Rendimiento académico.} Con $\mathcal{N}(70,100)$, la
+          mayoría de los estudiantes aprueba: el $84.13\%$ supera los
+          60 puntos. Sin embargo, apenas el $6.68\%$ alcanza la
+          distinción de 85 o más. La regla $\mu \pm \sigma$ concentra
+          el $68.27\%$ de los estudiantes entre 60 y 80 puntos.
+
+    \item \textbf{Eficiencia en la atención.} Con $\mathrm{Exp}(1/5)$,
+          la espera promedio es 5 minutos, pero la asimetría es alta
+          (media = desviación estándar = 5 min). La mediana de $3.47$
+          min indica que más de la mitad espera menos de 3.5 minutos,
+          aunque la cola tiene colas pesadas: un $13.53\%$ supera los
+          10 minutos de espera.
+
+    \item \textbf{Carencia de memoria.} La propiedad $P(Y>s+t\mid Y>s)=P(Y>t)$
+          implica que el tiempo adicional de espera no depende de cuánto
+          se ha esperado ya. Esta propiedad es exclusiva de la
+          distribución Exponencial en el dominio continuo.
+
+    \item \textbf{Independencia.} Al ser $X$ e $Y$ independientes, la
+          covarianza es cero y los eventos se pueden analizar por
+          separado. Solo el $0.90\%$ de los estudiantes tiene nota
+          sobresaliente \emph{y} espera más de 10 minutos.
+
+\end{enumerate}
+
+\vfill
+\begin{center}
+    \rule{0.6\linewidth}{0.4pt}\\[0.2cm]
+    {\small Documento académico -- Probabilidad y Estadística Matemática\\
+    Generado con \LaTeX\ + \texttt{amsmath} + \texttt{pgfplots} -- Marzo 2026}
+\end{center}
+
+\end{document}
