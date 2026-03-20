@@ -1,0 +1,741 @@
+\documentclass[12pt,a4paper]{article}
+ 
+% ============================================================
+%  PAQUETES
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{mathtools}
+ 
+\geometry{left=2.5cm, right=2.5cm, top=3cm, bottom=3cm}
+ 
+% ============================================================
+%  COLORES
+% ============================================================
+\definecolor{azulacad}{RGB}{0,70,127}
+\definecolor{grisclaro}{RGB}{245,245,245}
+\definecolor{verderesult}{RGB}{0,100,0}
+ 
+% ============================================================
+%  CAJAS
+% ============================================================
+\tcbuselibrary{skins, breakable}
+ 
+\newtcolorbox{definicion}[1]{
+  colback=blue!5!white, colframe=azulacad,
+  fonttitle=\bfseries, title=Definición: #1,
+  breakable
+}
+ 
+\newtcolorbox{ejercicio}[1]{
+  colback=orange!5!white, colframe=orange!80!black,
+  fonttitle=\bfseries, title=Ejercicio #1,
+  breakable
+}
+ 
+\newtcolorbox{resultado}{
+  colback=green!5!white, colframe=verderesult,
+  fonttitle=\bfseries\color{verderesult}, title=Resultado Final,
+  breakable
+}
+ 
+\newtcolorbox{aplicacion}{
+  colback=purple!5!white, colframe=purple!70!black,
+  fonttitle=\bfseries, title=Aplicación Práctica,
+  breakable
+}
+ 
+% ============================================================
+%  ENCABEZADOS
+% ============================================================
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\textcolor{azulacad}{\small Probabilidad y Estadística}}
+\lhead{\textcolor{azulacad}{\small Distribuciones de Probabilidad}}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+ 
+% ============================================================
+%  FORMATO DE SECCIONES
+% ============================================================
+\titleformat{\section}
+  {\Large\bfseries\color{azulacad}}
+  {\thesection}{1em}{}[\titlerule]
+ 
+\titleformat{\subsection}
+  {\large\bfseries\color{azulacad!80!black}}
+  {\thesubsection}{1em}{}
+ 
+% ============================================================
+%  INICIO DEL DOCUMENTO
+% ============================================================
+\begin{document}
+ 
+% ============================================================
+%  PORTADA
+% ============================================================
+\begin{titlepage}
+  \centering
+  \vspace*{1cm}
+  
+  {\Huge\bfseries\color{azulacad}
+   Distribuciones de Probabilidad\\[0.5cm]
+   Discretas y Continuas}
+  
+  \vspace{1cm}
+  \rule{\linewidth}{0.5mm}
+  \vspace{0.5cm}
+  
+  {\large
+   Documento Académico de Probabilidad y Estadística\\[0.3cm]
+   \textit{Desarrollo Teórico, Ejercicios Resueltos y Validación Computacional}}
+  
+  \vspace{1cm}
+  \rule{\linewidth}{0.5mm}
+  
+  \vspace{2cm}
+  
+  \begin{tabular}{rl}
+    \textbf{Asignatura:}  & Probabilidad y Estadística \\[0.3cm]
+    \textbf{Nivel:}       & Universitario \\[0.3cm]
+    \textbf{Contenido:}   & Binomial, Poisson, Normal, Exponencial \\[0.3cm]
+    \textbf{Año:}         & 2025 \\
+  \end{tabular}
+  
+  \vfill
+  
+  \textcolor{azulacad}{\rule{0.5\linewidth}{1pt}}
+  
+  \vspace{0.5cm}
+  {\small \textit{``La probabilidad es la guía de la vida.''} — Cicerón}
+  
+\end{titlepage}
+ 
+% ============================================================
+%  TABLA DE CONTENIDO
+% ============================================================
+\tableofcontents
+\newpage
+ 
+% ============================================================
+%  SECCIÓN 1: DISTRIBUCIONES DISCRETAS
+% ============================================================
+\section{Distribuciones de Probabilidad Discretas}
+ 
+Una variable aleatoria discreta $X$ toma valores en un conjunto numerable
+$\{x_1, x_2, \ldots\}$. Su \emph{función de probabilidad} (f.p.) cumple:
+\[
+  P(X = x_i) = p_i \geq 0, \qquad \sum_{i} p_i = 1.
+\]
+ 
+% ============================================================
+\subsection{Distribución Binomial}
+% ============================================================
+ 
+\begin{definicion}{Distribución Binomial $B(n,p)$}
+Sea un experimento de Bernoulli con probabilidad de éxito $p$ y de fracaso
+$q = 1-p$. Si se repite \textbf{$n$ veces de forma independiente}, la variable
+aleatoria $X = $ ``número de éxitos'' sigue una distribución
+\textbf{Binomial} con parámetros $n$ y $p$:
+\[
+  X \sim B(n,\,p).
+\]
+\end{definicion}
+ 
+\subsubsection{Función de Probabilidad}
+ 
+\[
+  \boxed{P(X = k) = \binom{n}{k} p^{k}(1-p)^{n-k}, \quad k = 0,1,2,\ldots,n}
+\]
+ 
+donde $\displaystyle\binom{n}{k} = \frac{n!}{k!\,(n-k)!}$ es el coeficiente binomial.
+ 
+\subsubsection{Media y Varianza}
+ 
+\[
+  \mu = E[X] = np, \qquad \sigma^2 = \text{Var}(X) = np(1-p) = npq.
+\]
+ 
+\subsubsection{Ejercicios Teóricos Resueltos}
+ 
+\begin{ejercicio}{1 — Binomial}
+\textbf{Enunciado:} Un examen de opción múltiple tiene 10 preguntas, cada una
+con 4 opciones (una correcta). Un estudiante contesta al azar. ¿Cuál es la
+probabilidad de acertar exactamente 3 preguntas?
+ 
+\medskip
+\textbf{Solución:}
+ 
+\textbf{Paso 1.} Identificar parámetros:
+\[
+  n = 10,\quad p = \tfrac{1}{4} = 0{,}25,\quad q = 0{,}75,\quad k = 3.
+\]
+ 
+\textbf{Paso 2.} Aplicar la fórmula:
+\[
+  P(X=3) = \binom{10}{3}(0{,}25)^3(0{,}75)^7.
+\]
+ 
+\textbf{Paso 3.} Calcular cada factor:
+\[
+  \binom{10}{3} = \frac{10!}{3!\,7!} = 120.
+\]
+\[
+  (0{,}25)^3 = 0{,}015625, \qquad (0{,}75)^7 \approx 0{,}13348.
+\]
+ 
+\textbf{Paso 4.} Multiplicar:
+\[
+  P(X=3) = 120 \times 0{,}015625 \times 0{,}13348 \approx 0{,}2503.
+\]
+\end{ejercicio}
+ 
+\begin{resultado}
+$P(X=3) \approx \mathbf{0{,}2503}$ \quad (25{,}03\,\%)
+\end{resultado}
+ 
+\begin{ejercicio}{2 — Binomial}
+\textbf{Enunciado:} Una fábrica produce tornillos con tasa de defectuosos $p=0{,}05$.
+Se toma una muestra de $n=20$ tornillos. ¿Cuál es la probabilidad de que haya
+a lo sumo 1 defectuoso?
+ 
+\medskip
+\textbf{Solución:}
+ 
+\textbf{Paso 1.} Parámetros: $n=20$, $p=0{,}05$, $q=0{,}95$.
+ 
+\textbf{Paso 2.} $P(X \le 1) = P(X=0) + P(X=1)$.
+ 
+\textbf{Paso 3.}
+\[
+  P(X=0) = \binom{20}{0}(0{,}05)^0(0{,}95)^{20} = (0{,}95)^{20} \approx 0{,}3585.
+\]
+\[
+  P(X=1) = \binom{20}{1}(0{,}05)^1(0{,}95)^{19} = 20 \times 0{,}05 \times 0{,}3774 \approx 0{,}3774.
+\]
+ 
+\textbf{Paso 4.}
+\[
+  P(X \le 1) \approx 0{,}3585 + 0{,}3774 = 0{,}7359.
+\]
+\end{ejercicio}
+ 
+\begin{resultado}
+$P(X \le 1) \approx \mathbf{0{,}7359}$ \quad (73{,}59\,\%)
+\end{resultado}
+ 
+\begin{aplicacion}
+\textbf{Control de calidad:} Una línea de producción saca el 2\,\% de piezas
+defectuosas. En un lote de 50 piezas, la probabilidad de encontrar más de 2
+defectuosas sirve para decidir si se rechaza el lote:
+$P(X > 2) = 1 - P(X \le 2)$, con $X \sim B(50,\,0{,}02)$.
+\end{aplicacion}
+ 
+% ============================================================
+\subsection{Distribución de Poisson}
+% ============================================================
+ 
+\begin{definicion}{Distribución de Poisson $\text{Po}(\lambda)$}
+Modela el número de eventos que ocurren en un intervalo fijo de tiempo
+(o espacio), cuando los eventos son \textbf{independientes} y ocurren a una
+\textbf{tasa media constante} $\lambda > 0$:
+\[
+  X \sim \text{Po}(\lambda).
+\]
+\end{definicion}
+ 
+\subsubsection{Función de Probabilidad}
+ 
+\[
+  \boxed{P(X = k) = \frac{e^{-\lambda}\,\lambda^k}{k!}, \quad k = 0,1,2,\ldots}
+\]
+ 
+\subsubsection{Propiedades}
+ 
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Media:} $E[X] = \lambda$.
+  \item \textbf{Varianza:} $\text{Var}(X) = \lambda$.
+  \item \textbf{Reproductividad:} Si $X_1 \sim \text{Po}(\lambda_1)$ y $X_2 \sim \text{Po}(\lambda_2)$ son independientes, entonces $X_1+X_2 \sim \text{Po}(\lambda_1+\lambda_2)$.
+  \item \textbf{Aproximación a Binomial:} Cuando $n \ge 50$ y $p \le 0{,}1$, se puede usar $\text{Po}(\lambda = np)$.
+\end{itemize}
+ 
+\subsubsection{Ejercicios Resueltos}
+ 
+\begin{ejercicio}{1 — Poisson}
+\textbf{Enunciado:} Un servidor web recibe en promedio 3 peticiones por minuto.
+¿Cuál es la probabilidad de recibir exactamente 5 peticiones en un minuto?
+ 
+\medskip
+\textbf{Solución:}
+ 
+\textbf{Paso 1.} $\lambda = 3$, $k = 5$.
+ 
+\textbf{Paso 2.}
+\[
+  P(X=5) = \frac{e^{-3}\cdot 3^5}{5!}
+           = \frac{e^{-3} \cdot 243}{120}.
+\]
+ 
+\textbf{Paso 3.} $e^{-3} \approx 0{,}049787$.
+ 
+\[
+  P(X=5) = \frac{0{,}049787 \times 243}{120} \approx \frac{12{,}098}{120} \approx 0{,}10082.
+\]
+\end{ejercicio}
+ 
+\begin{resultado}
+$P(X=5) \approx \mathbf{0{,}1008}$ \quad (10{,}08\,\%)
+\end{resultado}
+ 
+\begin{ejercicio}{2 — Poisson}
+\textbf{Enunciado:} En una autopista ocurren en promedio 2 accidentes por día.
+¿Cuál es la probabilidad de que en un día ocurran menos de 3 accidentes?
+ 
+\medskip
+\textbf{Solución:}
+ 
+\textbf{Paso 1.} $\lambda = 2$, calcular $P(X < 3) = P(X=0)+P(X=1)+P(X=2)$.
+ 
+\textbf{Paso 2.}
+\[
+  P(X=0) = e^{-2} \approx 0{,}13534.
+\]
+\[
+  P(X=1) = \frac{e^{-2} \cdot 2}{1} \approx 0{,}27067.
+\]
+\[
+  P(X=2) = \frac{e^{-2} \cdot 4}{2} \approx 0{,}27067.
+\]
+ 
+\textbf{Paso 3.}
+\[
+  P(X < 3) \approx 0{,}13534 + 0{,}27067 + 0{,}27067 = 0{,}67668.
+\]
+\end{ejercicio}
+ 
+\begin{resultado}
+$P(X < 3) \approx \mathbf{0{,}6767}$ \quad (67{,}67\,\%)
+\end{resultado}
+ 
+\begin{aplicacion}
+\textbf{Telecomunicaciones:} El número de llamadas que llegan a una central en
+un intervalo de tiempo sigue una distribución de Poisson. Conociendo $\lambda$,
+los ingenieros dimensionan el número de operadores necesarios para atender al
+menos el 95\,\% de las llamadas sin espera.
+\end{aplicacion}
+ 
+% ============================================================
+%  SECCIÓN 2: DISTRIBUCIONES CONTINUAS
+% ============================================================
+\section{Distribuciones de Probabilidad Continuas}
+ 
+Una variable aleatoria continua $X$ tiene \emph{función de densidad de
+probabilidad} (f.d.p.) $f(x) \ge 0$ tal que:
+\[
+  P(a \le X \le b) = \int_a^b f(x)\,dx, \qquad \int_{-\infty}^{+\infty} f(x)\,dx = 1.
+\]
+ 
+% ============================================================
+\subsection{Distribución Normal}
+% ============================================================
+ 
+\begin{definicion}{Distribución Normal $\mathcal{N}(\mu,\sigma^2)$}
+La distribución normal (o gaussiana) es la más importante en estadística.
+Una variable $X$ sigue una distribución normal con media $\mu$ y varianza
+$\sigma^2 > 0$:
+\[
+  X \sim \mathcal{N}(\mu,\,\sigma^2).
+\]
+\end{definicion}
+ 
+\subsubsection{Función de Densidad}
+ 
+\[
+  \boxed{f(x) = \frac{1}{\sigma\sqrt{2\pi}}\,\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right),
+  \quad x \in \mathbb{R}.}
+\]
+ 
+\subsubsection{Estandarización}
+ 
+Para calcular probabilidades se transforma a la \textbf{Normal Estándar}
+$Z \sim \mathcal{N}(0,1)$:
+\[
+  Z = \frac{X - \mu}{\sigma}.
+\]
+Entonces $P(X \le x) = P\!\left(Z \le \dfrac{x-\mu}{\sigma}\right) = \Phi\!\left(\dfrac{x-\mu}{\sigma}\right)$,
+donde $\Phi$ es la función de distribución acumulada estándar.
+ 
+\subsubsection{Propiedades}
+ 
+\begin{itemize}[leftmargin=2em]
+  \item Simétrica respecto a $\mu$: $f(\mu+t) = f(\mu-t)$.
+  \item Regla empírica: $P(\mu - \sigma \le X \le \mu + \sigma) \approx 68{,}27\,\%$.
+  \item $P(\mu - 2\sigma \le X \le \mu + 2\sigma) \approx 95{,}45\,\%$.
+  \item $P(\mu - 3\sigma \le X \le \mu + 3\sigma) \approx 99{,}73\,\%$.
+\end{itemize}
+ 
+\subsubsection{Ejercicios Resueltos}
+ 
+\begin{ejercicio}{1 — Normal}
+\textbf{Enunciado:} Las alturas de hombres adultos siguen $\mathcal{N}(175, 49)$
+(cm). ¿Cuál es la probabilidad de que un hombre seleccionado al azar mida
+más de 182 cm?
+ 
+\medskip
+\textbf{Solución:}
+ 
+\textbf{Paso 1.} $\mu = 175$, $\sigma = 7$ (pues $\sigma^2=49$).
+ 
+\textbf{Paso 2.} Estandarizar:
+\[
+  Z = \frac{182 - 175}{7} = \frac{7}{7} = 1.
+\]
+ 
+\textbf{Paso 3.}
+\[
+  P(X > 182) = P(Z > 1) = 1 - \Phi(1) = 1 - 0{,}8413 = 0{,}1587.
+\]
+\end{ejercicio}
+ 
+\begin{resultado}
+$P(X > 182) \approx \mathbf{0{,}1587}$ \quad (15{,}87\,\%)
+\end{resultado}
+ 
+\begin{ejercicio}{2 — Normal (Ejercicio 6.3)}
+\textbf{Enunciado (adaptado de Walpole et al., cap.~6):}
+Los pesos de bolsas de harina tienen distribución $\mathcal{N}(500, 25)$
+(gramos). ¿Cuál es la probabilidad de que una bolsa pese entre 490 y 510 g?
+ 
+\medskip
+\textbf{Solución:}
+ 
+\textbf{Paso 1.} $\mu = 500$, $\sigma = 5$.
+ 
+\textbf{Paso 2.} Estandarizar ambos límites:
+\[
+  z_1 = \frac{490 - 500}{5} = -2, \qquad z_2 = \frac{510 - 500}{5} = 2.
+\]
+ 
+\textbf{Paso 3.}
+\[
+  P(490 \le X \le 510) = \Phi(2) - \Phi(-2) = 0{,}9772 - 0{,}0228 = 0{,}9545.
+\]
+\end{ejercicio}
+ 
+\begin{resultado}
+$P(490 \le X \le 510) \approx \mathbf{0{,}9545}$ \quad (95{,}45\,\%)
+\end{resultado}
+ 
+\begin{aplicacion}
+\textbf{Control de procesos (SPC):} Las cartas de control de Shewhart usan la
+distribución normal para determinar los límites de control
+$\mu \pm 3\sigma$, garantizando que sólo el 0{,}27\,\% de los puntos caigan
+fuera por azar.
+\end{aplicacion}
+ 
+% ============================================================
+\subsection{Distribución Exponencial}
+% ============================================================
+ 
+\begin{definicion}{Distribución Exponencial $\text{Exp}(\lambda)$}
+Modela el tiempo de espera hasta el primer evento de un proceso de Poisson
+con tasa $\lambda > 0$:
+\[
+  X \sim \text{Exp}(\lambda).
+\]
+\end{definicion}
+ 
+\subsubsection{Función de Densidad}
+ 
+\[
+  \boxed{f(x) = \lambda\,e^{-\lambda x}, \quad x \ge 0.}
+\]
+ 
+La función de distribución acumulada es:
+\[
+  F(x) = P(X \le x) = 1 - e^{-\lambda x}.
+\]
+ 
+\subsubsection{Propiedades}
+ 
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Media:} $E[X] = \dfrac{1}{\lambda}$.
+  \item \textbf{Varianza:} $\text{Var}(X) = \dfrac{1}{\lambda^2}$.
+  \item \textbf{Sin memoria:} $P(X > s+t \mid X > s) = P(X > t)$ para todo $s,t \ge 0$.
+\end{itemize}
+ 
+\subsubsection{Ejercicios Resueltos}
+ 
+\begin{ejercicio}{1 — Exponencial}
+\textbf{Enunciado:} El tiempo de vida de un componente electrónico sigue
+$\text{Exp}(\lambda = 0{,}01)$ (horas). ¿Cuál es la probabilidad de que dure
+más de 200 horas?
+ 
+\medskip
+\textbf{Solución:}
+ 
+\textbf{Paso 1.} $P(X > 200) = 1 - F(200) = e^{-0{,}01 \times 200} = e^{-2}$.
+ 
+\textbf{Paso 2.} $e^{-2} \approx 0{,}13534$.
+\end{ejercicio}
+ 
+\begin{resultado}
+$P(X > 200) = e^{-2} \approx \mathbf{0{,}1353}$ \quad (13{,}53\,\%)
+\end{resultado}
+ 
+\begin{ejercicio}{2 — Exponencial}
+\textbf{Enunciado:} Un cliente llega en promedio cada 5 minutos ($\lambda = 0{,}2$
+clientes/min). ¿Cuál es la probabilidad de que el tiempo de espera entre dos
+clientes consecutivos sea entre 3 y 8 minutos?
+ 
+\medskip
+\textbf{Solución:}
+ 
+\textbf{Paso 1.} $P(3 \le X \le 8) = F(8) - F(3)$.
+ 
+\textbf{Paso 2.}
+\[
+  F(8) = 1 - e^{-0{,}2 \times 8} = 1 - e^{-1{,}6} \approx 1 - 0{,}20190 = 0{,}79810.
+\]
+\[
+  F(3) = 1 - e^{-0{,}2 \times 3} = 1 - e^{-0{,}6} \approx 1 - 0{,}54881 = 0{,}45119.
+\]
+ 
+\textbf{Paso 3.}
+\[
+  P(3 \le X \le 8) = 0{,}79810 - 0{,}45119 = 0{,}34691.
+\]
+\end{ejercicio}
+ 
+\begin{resultado}
+$P(3 \le X \le 8) \approx \mathbf{0{,}3469}$ \quad (34{,}69\,\%)
+\end{resultado}
+ 
+\begin{aplicacion}
+\textbf{Confiabilidad:} El tiempo hasta la falla de equipos de cómputo sigue
+frecuentemente una distribución exponencial. La propiedad de falta de memoria
+justifica el mantenimiento preventivo a intervalos fijos, sin importar cuánto
+tiempo lleve funcionando el equipo.
+\end{aplicacion}
+ 
+% ============================================================
+%  SECCIÓN 3: EJERCICIOS OBLIGATORIOS
+% ============================================================
+\section{Ejercicios Obligatorios}
+ 
+% ============================================================
+\subsection{Bernoulli / Binomial — Lanzamiento de dado}
+% ============================================================
+ 
+\textbf{Enunciado:} Se lanza un dado no alterado 5 veces. Determinar la
+probabilidad de que el número 3 aparezca:
+\begin{enumerate}[label=\textbf{(\alph*)}]
+  \item Exactamente 2 veces.
+  \item Máximo 1 vez.
+  \item Al menos 2 veces.
+\end{enumerate}
+ 
+\medskip
+\textbf{Identificación del modelo:}
+ 
+Cada lanzamiento es un experimento de Bernoulli:
+\[
+  p = P(\text{sale 3}) = \frac{1}{6}, \quad q = 1 - p = \frac{5}{6}, \quad n = 5.
+\]
+Por lo tanto $X \sim B\!\left(5,\,\tfrac{1}{6}\right)$.
+ 
+\medskip
+\textbf{Fórmula general:}
+\[
+  P(X = k) = \binom{5}{k}\left(\frac{1}{6}\right)^k\left(\frac{5}{6}\right)^{5-k}.
+\]
+ 
+% ---- Parte (a) ----
+\subsubsection*{(a) Exactamente 2 veces — $P(X = 2)$}
+ 
+\[
+  P(X = 2) = \binom{5}{2}\left(\frac{1}{6}\right)^2\!\left(\frac{5}{6}\right)^3
+            = 10 \cdot \frac{1}{36} \cdot \frac{125}{216}
+            = \frac{1250}{7776}.
+\]
+ 
+\[
+  \frac{1250}{7776} \approx 0{,}16075.
+\]
+ 
+\begin{resultado}
+$P(X = 2) = \dfrac{1250}{7776} \approx \mathbf{0{,}1608}$ \quad (16{,}08\,\%)
+\end{resultado}
+ 
+% ---- Parte (b) ----
+\subsubsection*{(b) Máximo 1 vez — $P(X \le 1)$}
+ 
+\[
+  P(X = 0) = \binom{5}{0}\left(\frac{1}{6}\right)^0\!\left(\frac{5}{6}\right)^5
+            = \frac{5^5}{6^5} = \frac{3125}{7776} \approx 0{,}40188.
+\]
+ 
+\[
+  P(X = 1) = \binom{5}{1}\left(\frac{1}{6}\right)^1\!\left(\frac{5}{6}\right)^4
+            = 5 \cdot \frac{1}{6} \cdot \frac{625}{1296}
+            = \frac{3125}{7776} \approx 0{,}40188.
+\]
+ 
+\[
+  P(X \le 1) = P(X=0) + P(X=1) = \frac{3125 + 3125}{7776} = \frac{6250}{7776} \approx 0{,}80376.
+\]
+ 
+\begin{resultado}
+$P(X \le 1) = \dfrac{6250}{7776} \approx \mathbf{0{,}8038}$ \quad (80{,}38\,\%)
+\end{resultado}
+ 
+% ---- Parte (c) ----
+\subsubsection*{(c) Al menos 2 veces — $P(X \ge 2)$}
+ 
+Usando el complemento:
+\[
+  P(X \ge 2) = 1 - P(X \le 1) = 1 - \frac{6250}{7776} = \frac{1526}{7776} \approx 0{,}19624.
+\]
+ 
+\begin{resultado}
+$P(X \ge 2) = 1 - \dfrac{6250}{7776} = \dfrac{1526}{7776} \approx \mathbf{0{,}1962}$ \quad (19{,}62\,\%)
+\end{resultado}
+ 
+% ============================================================
+\subsection{Poisson — Accidentes de tráfico}
+% ============================================================
+ 
+\textbf{Enunciado:} La probabilidad de accidente de un auto es $p = 0{,}001$.
+Pasan $n = 1000$ autos. Calcular $P(X \ge 2)$.
+ 
+\medskip
+\textbf{Aproximación de Binomial por Poisson:}
+ 
+Dado que $n = 1000 \ge 50$ y $p = 0{,}001 \le 0{,}1$, se usa:
+\[
+  \lambda = np = 1000 \times 0{,}001 = 1.
+\]
+Luego $X \sim \text{Po}(1)$.
+ 
+\medskip
+\textbf{Cálculo por complemento:}
+\[
+  P(X \ge 2) = 1 - P(X = 0) - P(X = 1).
+\]
+ 
+\[
+  P(X = 0) = \frac{e^{-1}\cdot 1^0}{0!} = e^{-1} \approx 0{,}36788.
+\]
+ 
+\[
+  P(X = 1) = \frac{e^{-1}\cdot 1^1}{1!} = e^{-1} \approx 0{,}36788.
+\]
+ 
+\[
+  P(X \ge 2) = 1 - 0{,}36788 - 0{,}36788 = 1 - 0{,}73576 = 0{,}26424.
+\]
+ 
+\begin{resultado}
+$P(X \ge 2) = 1 - 2e^{-1} \approx \mathbf{0{,}2642}$ \quad (26{,}42\,\%)
+\end{resultado}
+ 
+% ============================================================
+\subsection{Normal — Ejercicio 6.3 (Walpole et al.)}
+% ============================================================
+ 
+\textbf{Enunciado:} Un proceso industrial llena botellas cuyo contenido sigue
+una distribución normal con $\mu = 500$ ml y $\sigma = 5$ ml.
+ 
+\begin{enumerate}[label=\textbf{(\alph*)}]
+  \item ¿Cuál es la probabilidad de que una botella contenga entre 490 y 510 ml?
+  \item ¿Cuál es la probabilidad de que una botella contenga menos de 492 ml?
+  \item ¿Cuál es el valor $c$ tal que $P(X > c) = 0{,}05$?
+\end{enumerate}
+ 
+\textbf{Datos:} $X \sim \mathcal{N}(500, 25)$, es decir $\mu=500$, $\sigma=5$.
+ 
+% ---- Parte (a) ----
+\subsubsection*{(a) $P(490 \le X \le 510)$}
+ 
+\[
+  z_1 = \frac{490-500}{5} = -2, \qquad z_2 = \frac{510-500}{5} = 2.
+\]
+\[
+  P(490 \le X \le 510) = \Phi(2) - \Phi(-2) = 0{,}9772 - 0{,}0228 = \mathbf{0{,}9545}.
+\]
+ 
+% ---- Parte (b) ----
+\subsubsection*{(b) $P(X < 492)$}
+ 
+\[
+  z = \frac{492-500}{5} = -1{,}6.
+\]
+\[
+  P(X < 492) = \Phi(-1{,}6) = 1 - \Phi(1{,}6) = 1 - 0{,}9452 = \mathbf{0{,}0548}.
+\]
+ 
+% ---- Parte (c) ----
+\subsubsection*{(c) Valor $c$ tal que $P(X > c) = 0{,}05$}
+ 
+\[
+  P(X > c) = 0{,}05 \implies P(X \le c) = 0{,}95.
+\]
+\[
+  \Phi(z_{0{,}95}) = 0{,}95 \implies z_{0{,}95} = 1{,}645.
+\]
+\[
+  c = \mu + z_{0{,}95}\cdot\sigma = 500 + 1{,}645 \times 5 = 500 + 8{,}225 = 508{,}225 \text{ ml}.
+\]
+ 
+\begin{resultado}
+\begin{itemize}
+  \item[(a)] $P(490 \le X \le 510) \approx \mathbf{0{,}9545}$ \quad (95{,}45\,\%)
+  \item[(b)] $P(X < 492) \approx \mathbf{0{,}0548}$ \quad (5{,}48\,\%)
+  \item[(c)] $c \approx \mathbf{508{,}225}$ ml
+\end{itemize}
+\end{resultado}
+ 
+% ============================================================
+%  RESUMEN DE FÓRMULAS
+% ============================================================
+\section{Resumen de Fórmulas Principales}
+ 
+\begin{center}
+\renewcommand{\arraystretch}{2.2}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Distribución} & \textbf{Parámetros} & \textbf{$P$ / $f(x)$} & \textbf{$E[X]$} & \textbf{$\text{Var}(X)$} \\
+\midrule
+Binomial & $n,p$ & $\binom{n}{k}p^k q^{n-k}$ & $np$ & $npq$ \\
+Poisson & $\lambda$ & $\dfrac{e^{-\lambda}\lambda^k}{k!}$ & $\lambda$ & $\lambda$ \\
+Normal & $\mu,\sigma^2$ & $\dfrac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$ & $\mu$ & $\sigma^2$ \\
+Exponencial & $\lambda$ & $\lambda e^{-\lambda x}$ & $\dfrac{1}{\lambda}$ & $\dfrac{1}{\lambda^2}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+ 
+% ============================================================
+%  REFERENCIAS
+% ============================================================
+\section*{Referencias}
+\addcontentsline{toc}{section}{Referencias}
+ 
+\begin{enumerate}
+  \item Walpole, R.~E., Myers, R.~H., Myers, S.~L., \& Ye, K. (2012). \textit{Probability \& Statistics for Engineers and Scientists} (9\textsuperscript{a} ed.). Pearson.
+  \item DeGroot, M.~H., \& Schervish, M.~J. (2012). \textit{Probability and Statistics} (4\textsuperscript{a} ed.). Addison-Wesley.
+  \item Montgomery, D.~C., \& Runger, G.~C. (2018). \textit{Applied Statistics and Probability for Engineers} (7\textsuperscript{a} ed.). Wiley.
+\end{enumerate}
+ 
+\end{document}
